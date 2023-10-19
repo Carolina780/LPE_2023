@@ -134,3 +134,4 @@ BALLENOIL_MADRID %>% leaflet() %>% addTiles() %>%
 #crear columnas
 LOW_COST <- clean_data %>% mutate(low_cost = !rotulo %in% c("REPSOL","CEPSA","Q8","BP","SHELL","CAMPSA","GALP"))
 #modificar o crear un nuevo atributo -> mutate 
+
