@@ -8,6 +8,7 @@
 install.packages(c("tidyverse","dplyr","janitor"))
 install.packages(c("jsonlite","readr"))
 install.packages(c("leaflet"))
+install.packages(c("readxl"))
 #library("dplyr","janitor","jsonlite")
 library(dplyr)
 library(readr)
@@ -165,9 +166,26 @@ LOW_COST <- media_dataset %>%
 write_excel_csv2(LOW_COST,"LOW_COST.xls")
 
 
+# MEDIA DE PRECIO POR COMUNIDAD -------------------------------------------
 
+media_por_comunidad <- clean_data %>% 
+  filter(provincia == "PALMAS (LAS)" | provincia == "SANTA CRUZ DE TENERIFE") %>% 
+    summarise(media = mean(precio_gasoleo_a, na.rm = TRUE))
 
+tabla_comunidades <- read()
 
+library(readxl)
 
+tabla_comunidades <- readxl::read_excel("codccaa_OFFCIAL.xls")
+#CAMBIA EL CABECERO DE LA PRIMERA LINEA A SU SITIO CORREPONDIENTE 
+colnames(tabla_comunidades) <- tabla_comunidades[1, ] 
+tabla_comunidades <- tabla_comunidades[-1, ]
 
+#AÑADIMOS LA COLUMNA DE COMUNIDADES, PONIENDO COMO CLAVE EL CODIGO Y EL IDCCA QUE ES LO QE COINCIDEB 
+tabla_com <- clean_data %>%
+  left_join(tabla_comunidades, by = c("idccaa" = "CODIGO"))
 
+#MEDIA POR COMUNIDAD DE CANARIAS YA TENIENDO LA COLUMNA COMUNIDAD
+media_c <- tabla_com %>% 
+  filter(LITERAL == "Canarias") %>% 
+  summarise(media = mean(precio_gasoleo_a, na.rm = TRUE))
