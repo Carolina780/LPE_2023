@@ -172,8 +172,6 @@ media_por_comunidad <- clean_data %>%
   filter(provincia == "PALMAS (LAS)" | provincia == "SANTA CRUZ DE TENERIFE") %>% 
     summarise(media = mean(precio_gasoleo_a, na.rm = TRUE))
 
-tabla_comunidades <- read()
-
 library(readxl)
 
 tabla_comunidades <- readxl::read_excel("codccaa_OFFCIAL.xls")
