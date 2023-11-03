@@ -187,3 +187,17 @@ tabla_com <- clean_data %>%
 media_c <- tabla_com %>% 
   filter(LITERAL == "Canarias") %>% 
   summarise(media = mean(precio_gasoleo_a, na.rm = TRUE))
+
+
+# AÑADIR POBLACIÓN --------------------------------------------------------
+
+library(readxl)
+pobmun22 <- read_excel("pobmun22.xlsx", skip = 1)
+
+#tabla_poblacion <- mutate_if(tabla_poblacion, is.character, toupper)
+data_join <- pobmun22 %>% select(NOMBRE,POB22)
+
+data <- inner_join(data_join,clean_data, by = c("NOMBRE" = "municipio")) %>% glimpse()
+
+
+
